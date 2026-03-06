@@ -179,11 +179,15 @@
     insights into team match ups, compare stat blocks and get detail on Gym
     movesets & abilities.
   </p>
+  <p>
+    To transfer data from the original site, follow the instructions found
+    <a href="https://github.com/Bassel-T/nuzlocke.app/blob/main/transfer.md" class="font-bold underline">here</a>.
+  </p>
 </main>
 
 <style lang="postcss">
   main {
-    @apply container mx-auto mt-16 flex flex-col justify-center;
+    @apply container mx-auto mt-16 flex flex-col justify-center pb-16;
   }
 
   @media (min-width: 640px) {
