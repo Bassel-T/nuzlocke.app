@@ -76,7 +76,7 @@
       aspect="324x62"
       pixelated
       alt="Nuzlocke logo"
-      className="transition h-auto md:h-16 mt-2 mx-auto"
+      className="transition h-auto mt-2 mx-auto"
     />
     tracker
   </h1>
@@ -136,7 +136,7 @@
               {src}
               rel="external"
               alt="Pokemon #{id}"
-              class="absolute right-0 -my-2 -ml-12 w-full transition md:-my-12"
+              class="absolute right-0 -my-2 sm:-my-12 sm:-ml-12 w-full transition"
               out:fly={{ y: distance, duration }}
               in:fly={{ y: -distance, duration }}
             />
@@ -146,7 +146,7 @@
               {src}
               rel="external"
               alt="Pokemon #{id}"
-              class="absolute right-0 -my-2 -ml-12 w-full transition md:-my-12"
+              class="absolute right-0 -my-2 sm:-my-12 sm:-ml-12 w-full transition"
               out:fly={{ y: distance, duration }}
               in:fly={{ y: -distance, duration }}
             />
@@ -154,7 +154,7 @@
         {:else}
           <div
             in:fly={{ y: -distance, duration }}
-            class="absolute mt-14 -ml-4 inline-grid w-20 origin-left -translate-y-1/2 scale-200 transform grid-cols-2 transition md:mt-12 md:ml-0 md:w-24 md:grid-cols-3"
+            class="absolute mt-14 -ml-4 sm:ml-0 inline-grid w-20 sm:w-24 origin-left -translate-y-1/2 scale-200 transform grid-cols-2 transition md:mt-12 md:grid-cols-3"
           >
             {#each summary.team as icon, i}
               <span
@@ -203,7 +203,7 @@
   }
 
   main > div {
-    @apply mt-10 overflow-hidden py-7 px-6 sm:px-4;
+    @apply mt-10 overflow-hidden py-7 px-4;
   }
 
   p {
@@ -216,12 +216,6 @@
 
   :global(.container__index) {
     @apply relative mx-auto flex h-full max-h-56 w-auto max-w-md items-center justify-evenly gap-y-2 py-8 font-mono text-3xl sm:flex-row;
-  }
-
-  @media (max-width: 640px) {
-    :global(.container__index > div) {
-      @apply -ml-8;
-    }
   }
 
   .img__container {
