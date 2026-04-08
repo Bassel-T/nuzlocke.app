@@ -40,7 +40,7 @@
 
   import { createEventDispatcher, onMount, getContext } from 'svelte'
 
-  let selected, nickname, status, nature, hidden, death
+  let selected, nickname, status, nature, hidden, death, level
   let prevstatus = 'loading'
 
   // Search text bindings for ACs
@@ -124,6 +124,7 @@
         hidden = pkmn.hidden
         nickname = pkmn.nickname
         death = pkmn.death
+        level = pkmn.level ?? null
         if (pkmn.pokemon)
           getPkmn(pkmn.pokemon).then((p) => {
             selected = p
@@ -133,28 +134,35 @@
     )
 
   $: {
+    const parsedLevel = Number(level)
+    const trackedLevel =
+      Number.isFinite(parsedLevel) && parsedLevel >= 1 && parsedLevel <= 100
+        ? Math.floor(parsedLevel)
+        : null
+
     const topatch = nonnull({
-    id,
-    pokemon: selected?.alias,
-    status: status?.id,
-    nature: nature?.id,
-    location: locationName || location,
-    ...(nickname ? { nickname } : {}),
-    ...(hidden ? { hidden: true } : {}),
-    ...(status?.id === 5 && death ? { death } : {})
-  });
+      id,
+      pokemon: selected?.alias,
+      status: status?.id,
+      nature: nature?.id,
+      location: locationName || location,
+      ...(trackedLevel ? { level: trackedLevel } : {}),
+      ...(nickname ? { nickname } : {}),
+      ...(hidden ? { hidden: true } : {}),
+      ...(status?.id === 5 && death ? { death } : {})
+    })
 
-  if (selected && !oEqual(topatch, resetd)) {
-    console.log('Patching', location);
-    store.update(patch({ [location]: topatch }));
+    if (selected && !oEqual(topatch, resetd)) {
+      console.log('Patching', location)
+      store.update(patch({ [location]: topatch }))
 
-    // Remove from team if marked as dead
-    if (status?.id === 5 && (team || []).includes(location)) {
-      store.update(patch({ __team: team.filter((loc) => loc !== location) }));
+      // Remove from team if marked as dead
+      if (status?.id === 5 && (team || []).includes(location)) {
+        store.update(patch({ __team: team.filter((loc) => loc !== location) }))
+      }
     }
-  }
 
-  inteam = (team || []).includes(location);
+    inteam = (team || []).includes(location)
   }
 
   const onhide = () => {
@@ -198,7 +206,7 @@
   }
 
   function handleClear() {
-    status = nickname = selected = death = resetd = null
+    status = nickname = selected = death = resetd = level = null
     search = statusSearch = natureSearch = null
     store.update(
       patch({
@@ -274,9 +282,9 @@
 
 <SettingsWrapper id="nickname-clause" let:setting={nicknames}>
   <div
-    class:lg:grid-cols-8={nicknames}
-    class:lg:grid-cols-6={!nicknames}
-    class="relative flex grid w-full grid-cols-2 gap-y-3 gap-x-2 md:grid-cols-4 md:gap-y-2 lg:grid-cols-8 lg:gap-y-0"
+    class:lg:grid-cols-9={nicknames}
+    class:lg:grid-cols-7={!nicknames}
+    class="relative flex grid w-full grid-cols-2 gap-y-3 gap-x-2 md:grid-cols-4 md:gap-y-2 lg:gap-y-0"
   >
     <span class="location group relative z-50">
       {#if $$slots.location}
@@ -502,6 +510,19 @@
         {/if}
       </div>
     </AutoCompleteV2>
+
+    <Input
+      rounded
+      type="number"
+      min={1}
+      max={100}
+      bind:value={level}
+      name="{location} Level"
+      placeholder="Level"
+      className="col-span-1 {!selected || status?.id === 4 || hidden
+        ? 'hidden sm:block'
+        : ''}"
+    />
 
     <span class="inline-flex gap-x-2 text-left">
       {#if selected && status && status.id !== 4 && status.id !== 5}

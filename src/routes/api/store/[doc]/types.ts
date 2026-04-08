@@ -102,6 +102,7 @@ const ILocation = z.object({
   id: z.coerce.number(),
   location: z.string(),
   pokemon: z.string(),
+  level: z.optional(z.coerce.number().min(1).max(100).nullish()),
   nature: z.optional(z.string().nullish()),
   nickname: z.optional(z.string().nullish()),
   status: z.optional(z.number().min(1).max(7)),

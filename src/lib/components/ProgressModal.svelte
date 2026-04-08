@@ -20,6 +20,7 @@
   } from '$lib/store'
 
   import calcAdvice from '$utils/advice'
+  import { applyTrackedStats } from '$lib/utils/manual-stats'
   import { toList, regionise, capitalise } from '$utils/string'
   import { locid } from '$utils/pokemon'
   import { nonnull } from '$utils/obj'
@@ -117,8 +118,14 @@
   let analysisResult
   onMount(async () => {
     setup(async (_, boxData) => {
-      const boxMons = await fetchPkmnSet(boxData)
       const gymMons = await fetchPkmnSet(boss.pokemon, 'name')
+      const estimatedLevel = Math.max(
+        ...gymMons.map((mon) => Number(mon?.original?.level) || 0),
+        1
+      )
+      const boxMons = (await fetchPkmnSet(boxData)).map((mon) =>
+        applyTrackedStats(mon, estimatedLevel)
+      )
 
       const advice = calcAdvice(boxMons, gymMons)
       analysisResult = {

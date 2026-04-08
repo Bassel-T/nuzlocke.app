@@ -428,6 +428,7 @@
                         p.nickname + ' the ' + (p.nature || '').toLowerCase()
                     }
                   : null}
+                level={p.level ? `${p.level}` : ''}
                 name={Pokemon[p.pokemon].name}
                 stats={Pokemon[p.pokemon].baseStats}
                 nature={p.nature}
