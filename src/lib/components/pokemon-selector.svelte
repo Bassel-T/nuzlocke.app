@@ -270,6 +270,7 @@
   }
 
   $: gray = NuzlockeGroups.Unavailable.includes(status?.id)
+  $: hasData = !!(selected || nickname || status || nature)
 </script>
 
 <SettingsWrapper id="nickname-clause" let:setting={nicknames}>
@@ -397,7 +398,7 @@
         rounded
         bind:value={nickname}
         name="{location} Nickname"
-        placeholder="Nickname"
+        placeholder={hasData ? '' : 'Nickname'}
         className="col-span-2 {!selected || hidden || status?.id === 4
           ? 'hidden sm:block'
           : ''}"
@@ -425,7 +426,7 @@
           bind:selected={status}
           id="{location} Status"
           name="{location} Status"
-          placeholder="Status"
+          placeholder={hasData ? '' : 'Status'}
           class="{!selected || hidden ? 'hidden sm:block' : ''} {status?.id ===
           4
             ? 'col-span-2 sm:col-span-1'
@@ -466,7 +467,7 @@
       bind:selected={nature}
       id="{location} Nature"
       name="{location} Nature"
-      placeholder="Nature"
+      placeholder={hasData ? '' : 'Nature'}
       class="col-span-1 {!selected || status?.id === 4 || hidden
         ? 'hidden sm:block'
         : ''}"
