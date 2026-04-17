@@ -4,7 +4,7 @@ const rewrite = !building && !dev
 // TODO: Remember to update `vercel.json` in root of project when
 // modifying these sources
 
-export const SPRITE = '/assets/img/pokemon'
+export const SPRITE = 'https://img.nuzlocke.app/sprites'
 export const CUSTOM = 'https://img.nuzlocke.app/sprites'
 export const IMG = '/assets/img'
 export const SHARE = 'https://share.nuzlocke.app'
@@ -31,8 +31,8 @@ export const createImgUrl = (p, { ext = 'webp', shiny = false } = {}) => {
 
   if (!normalId) return UNOWN
 
-  if (shiny) return `${SPRITE}/shiny-${normalId}.${ext}`
-  return `${SPRITE}/base-${normalId}.${ext}`
+  if (shiny) return `${SPRITE}/shiny/${normalId}.${ext}`
+  return `${SPRITE}/base/${normalId}.${ext}`
 }
 
 export const bossToImage = (bossData) => {
