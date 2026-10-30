@@ -157,7 +157,7 @@
 
   let DeathModal
   const openDeathModal = async (args) => {
-    if (DeathModal) open(DeathModal, args)
+    if (DeathModal) return open(DeathModal, args)
     import('$lib/components/DeathModal/index.svelte').then((m) => {
       DeathModal = m.default
       open(DeathModal, args)
@@ -166,7 +166,7 @@
 
   let EvoModal
   const openEvoModal = async (args) => {
-    if (EvoModal) open(EvoModal, args)
+    if (EvoModal) return open(EvoModal, args)
     import('$lib/components/EvolutionModal.svelte').then((m) => {
       EvoModal = m.default
       open(EvoModal, args)
